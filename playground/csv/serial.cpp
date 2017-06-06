@@ -3,6 +3,9 @@
 
   g++ serial.cpp
   ./a.out
+
+  https://stackoverflow.com/questions/1120140/how-can-i-read-and-parse-csv-files-in-c
+  https://stackoverflow.com/questions/2808398/easily-measure-elapsed-time
 */
 
 #include <iostream>
