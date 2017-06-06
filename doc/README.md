@@ -40,7 +40,10 @@ Apache Arrow?
 ## CSV
 
 - https://github.com/ben-strasser/fast-cpp-csv-parser
-
+  - std setvbuf disable system buffering
+  - http://man7.org/linux/man-pages/man3/setbuf.3.html
+  - std::move http://en.cppreference.com/w/cpp/utility/move
+  
 ## sort
 
 - https://stackoverflow.com/questions/3969813/which-parallel-sorting-algorithm-has-the-best-average-case-performance

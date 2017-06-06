@@ -1,5 +1,7 @@
 # Kaggle S&P 500
 
+https://www.kaggle.com/dgawlik/nyse
+
 prices.csv (50M)
 
 - volume

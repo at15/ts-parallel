@@ -8,3 +8,7 @@
 - [ ] https://github.com/BenjiKCF/Neural-Network-with-Financial-Time-Series-Data
   - https://github.com/llSourcell/How-to-Predict-Stock-Prices-Easily-Demo
   - https://github.com/jaungiers/LSTM-Neural-Network-for-Time-Series-Prediction
+
+## Spark
+
+- https://mapr.com/blog/using-apache-spark-sql-explore-sp-500-and-oil-stock-prices/
