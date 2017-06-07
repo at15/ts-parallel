@@ -67,27 +67,23 @@ void ReadHeader()
   std::getline(f, line);
   std::cout << line << std::endl;
   line_stream << line;
-  std::cout << line_stream.str() << std::endl;
   while (std::getline(line_stream, cell, ','))
   {
-    header.push_back(cell);
+    header.push_back(std::move(cell));
   }
   for (const auto &h : header)
   {
     std::cout << h << std::endl;
   }
-  // FIXME: you can't reuse the line stream
+  // FIXED: you can't reuse the line stream, need to call clear()
   // https://www.eecis.udel.edu/~breech/progteam/stringstream.html
   std::getline(f, line);
-  std::printf("%s\n", line.c_str());
   std::cout << line << std::endl;
   line_stream.clear();
   line_stream << line;
-  // line_stream.str(line);
-  std::cout << line_stream.str() << std::endl;
   while (std::getline(line_stream, cell, ','))
   {
-    values.push_back(cell);
+    values.push_back(std::move(cell));
   }
   for (const auto &v : values)
   {
@@ -104,8 +100,8 @@ void ReadHeader()
   std::stringstream value_stream;
   value_stream << values[0];
   // http://en.cppreference.com/w/cpp/io/manip/get_time
-  // value_stream >> std::get_time(&tm, "%Y-%m-%d");
-  value_stream >> std::get_time(&tm, "%Y-%m-%d %H:%M:%S");
+  value_stream >> std::get_time(&tm, "%Y-%m-%d");
+  // value_stream >> std::get_time(&tm, "%Y-%m-%d %H:%M:%S");
   if (value_stream.fail())
   {
     std::cout << "failed to parse time" << std::endl;
@@ -113,8 +109,11 @@ void ReadHeader()
   else
   {
     // FIXME: ? Jan  5 1611344960:21939:1375664304 2016
+    // TODO: get epoch
     std::cout << std::put_time(&tm, "%c") << std::endl;
   }
+  // TODO: parse float, double etc.
+  // http://en.cppreference.com/w/cpp/string/basic_string/stof
 }
 
 int main()
