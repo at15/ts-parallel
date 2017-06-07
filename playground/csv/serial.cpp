@@ -12,6 +12,10 @@
 #include <fstream>
 #include <cstdio>
 #include <chrono>
+#include <vector>
+#include <string>
+#include <sstream>
+#include <iomanip>
 
 void ReadFile()
 {
@@ -44,9 +48,79 @@ void ReadFile()
   f.close();
 }
 
+void ReadHeader()
+{
+  std::ifstream f("prices-split-adjusted.csv");
+  if (!f.is_open())
+  {
+    std::perror("failed to open file");
+  }
+
+  std::string line;
+  // FIXED: has incomplete type and cannot be defined
+  // #include <sstream>
+  std::stringstream line_stream;
+  std::string cell;
+  std::vector<std::string> header;
+  std::vector<std::string> values;
+
+  std::getline(f, line);
+  std::cout << line << std::endl;
+  line_stream << line;
+  std::cout << line_stream.str() << std::endl;
+  while (std::getline(line_stream, cell, ','))
+  {
+    header.push_back(cell);
+  }
+  for (const auto &h : header)
+  {
+    std::cout << h << std::endl;
+  }
+  // FIXME: you can't reuse the line stream
+  // https://www.eecis.udel.edu/~breech/progteam/stringstream.html
+  std::getline(f, line);
+  std::printf("%s\n", line.c_str());
+  std::cout << line << std::endl;
+  line_stream.clear();
+  line_stream << line;
+  // line_stream.str(line);
+  std::cout << line_stream.str() << std::endl;
+  while (std::getline(line_stream, cell, ','))
+  {
+    values.push_back(cell);
+  }
+  for (const auto &v : values)
+  {
+    // std::cout << v << std::endl;
+    std::printf("%s\n", v.c_str());
+  }
+  // now let's infer the schema? or let the user specify it? ...
+  // well let the user specify it ....
+  // FIXME: it's 2016-01-05 00:00:00, but it seems the stream stop on blank ?
+  // FIXED: it's the problem of Kaggle
+  // prices.csv and prices-split-adjusted.csv use different time format ....
+  // 2016-01-05
+  std::tm tm;
+  std::stringstream value_stream;
+  value_stream << values[0];
+  // http://en.cppreference.com/w/cpp/io/manip/get_time
+  // value_stream >> std::get_time(&tm, "%Y-%m-%d");
+  value_stream >> std::get_time(&tm, "%Y-%m-%d %H:%M:%S");
+  if (value_stream.fail())
+  {
+    std::cout << "failed to parse time" << std::endl;
+  }
+  else
+  {
+    // FIXME: ? Jan  5 1611344960:21939:1375664304 2016
+    std::cout << std::put_time(&tm, "%c") << std::endl;
+  }
+}
+
 int main()
 {
   std::cout << "Hello world" << std::endl;
-  ReadFile();
+  ReadHeader();
+  // ReadFile();
   return 0;
 }
