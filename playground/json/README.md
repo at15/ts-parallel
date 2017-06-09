@@ -2,6 +2,8 @@
 
 JSON dump from wakatime
 
+- wakadump --input at15.json --output csv
+
 - users (obj)
 - range (obj)
   - start (timestamp)
@@ -32,6 +34,10 @@ JSON dump from wakatime
     - operating_system (array)
     - grand_total (obj)
     - languages (array)    
+    
+Need to be transformed into following table
+    
+date, project, name, language, time
 
 ## CPP
 

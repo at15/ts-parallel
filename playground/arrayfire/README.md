@@ -57,3 +57,13 @@ CMakeFiles/Makefile2:687: recipe for target 'src/backend/cuda/CMakeFiles/afcuda.
 ````
 
 - seems relevant https://git.qt.io/consulting-usa/qtbase-xcb-rendering/commit/4c0760d327e390a37d0d6ce2016d3a8c5b87a119
+
+after checkout to 3.4.2, got error again ....
+
+````
+make[2]: *** No rule to make target 'src/backend/cuda/cuda_compile_ptx_generated_arith.cu.ptx', needed by 'src/backend/cuda/arith.ptx'.  Stop.
+CMakeFiles/Makefile2:653: recipe for target 'src/backend/cuda/CMakeFiles/cuda_ptx_headers_bin_target.dir/all' failed
+make[1]: *** [src/backend/cuda/CMakeFiles/cuda_ptx_headers_bin_target.dir/all] Error 2
+````
+
+https://github.com/arrayfire/arrayfire/issues/1755 need to use new version .... wtf
