@@ -4,6 +4,8 @@ https://github.com/arrayfire/arrayfire
 
 ## Install
 
+- made a post https://groups.google.com/d/msg/arrayfire-users/s7nka4S21dc/Wc7YfREBAgAJ
+
 ````
 sudo apt-get install -y libfreeimage-dev cmake-curses-gui
 sudo apt-get install libopenblas-dev libfftw3-dev liblapacke-dev
@@ -14,7 +16,7 @@ git submodule init
 git submodule update
 mkdir build
 cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_CUDA=ON
+cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_CUDA=OFF
 make -j4
 ````
 
@@ -57,6 +59,8 @@ CMakeFiles/Makefile2:687: recipe for target 'src/backend/cuda/CMakeFiles/afcuda.
 ````
 
 - seems relevant https://git.qt.io/consulting-usa/qtbase-xcb-rendering/commit/4c0760d327e390a37d0d6ce2016d3a8c5b87a119
+- https://github.com/Microsoft/CNTK/issues/1019 is exactly the same
+- https://groups.google.com/forum/#!topic/digits-users/MpWhRFhllZs similar
 
 after checkout to 3.4.2, got error again ....
 
