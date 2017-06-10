@@ -5,5 +5,6 @@
 int main()
 {
     std::cout << "let's run some benchmark" << std::endl;
+    aya::ping();
     aya::bench::ping();
 }

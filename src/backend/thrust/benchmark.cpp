@@ -1,5 +1,4 @@
-#include <iostream>
-
+#include "../../common.hpp"
 #include "../../benchmark.hpp"
 
 namespace aya

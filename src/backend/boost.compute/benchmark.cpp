@@ -5,7 +5,7 @@ namespace aya
 {
 namespace bench
 {
-static void ping()
+void ping()
 {
     std::cout << "pong from boost compute benchmark backend" << std::endl;
 }
