@@ -8,3 +8,6 @@
 a.out
 *.bin
 .idea
+.cproject
+.project
+.settings
