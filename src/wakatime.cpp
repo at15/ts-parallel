@@ -4,7 +4,7 @@ DEFINE_string(data, "../data/at15.json", "wakatime json dump");
 
 int toEpoch(const std::string &date)
 {
-    std::cout << date << std::endl;
+    // std::cout << date << std::endl;
     std::istringstream ss(date);
     // TODO: it seems {} is a must, otherwise we got trash value
     std::tm t = {};
@@ -40,15 +40,40 @@ int main(int argc, char **argv)
     data_stream >> data_json;
     std::cout << "number of entries " << data_json.size() << std::endl;
     std::cout << "number of days " << data_json["days"].size() << std::endl;
+
+    std::vector<int> days;
+    std::vector<std::string> projects;
+    std::vector<std::string> file_names;
+    std::vector<int> edit_durations;
+
     for (auto &day : data_json["days"])
     {
         std::string date = day.value("date", "");
-        std::cout << day["date"] << std::endl;
+        // std::cout << day["date"] << std::endl;
         // std::cout << toEpoch(day["date"]) << std::endl;
-        std::cout << toEpoch(date) << std::endl;
+        // std::cout << toEpoch(date) << std::endl;
+        for (auto &project : day["projects"])
+        {
+            std::string project_name = project.value("name", "");
+            // std::cout << project["name"] << std::endl;
+            for (auto &entity : project["entities"])
+            {
+                // std::cout << entity["name"] << std::endl;
+                std::string file_name = entity.value("name", "");
+                int edit_duration = entity.value("total_seconds", 0);
+                days.push_back(toEpoch(date));
+                projects.push_back(project_name);
+                file_names.push_back(std::move(file_name));
+                edit_durations.push_back(edit_duration);
+            }
+        }
     }
 
-    // TODO: access value https://github.com/nlohmann/json/blob/develop/doc/examples/basic_json__value.cpp
+    int num_rows = days.size();
+    std::cout << "total " << num_rows << " rows" << std::endl;
+    for (int i = 0; i < 20; i++) {
+        std::cout << i << " " << days[i] << " " << projects[i] << " " << file_names[i] << " " << edit_durations[i] << std::endl; 
+    }
 
     google::ShutDownCommandLineFlags();
     return 0;
