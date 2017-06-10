@@ -6,11 +6,14 @@
 
 namespace aya
 {
-void ping()
+// NOTE: we need inline to avoid `multiple definition of` error https://stackoverflow.com/a/685467/4116260
+// > Include the inline keyword so they are not exported by each object file
+inline void ping()
 {
     std::cout << "pong from util" << std::endl;
 }
-int toEpoch(const std::string &date)
+
+inline int toEpoch(const std::string &date)
 {
     // std::cout << date << std::endl;
     std::istringstream ss(date);
