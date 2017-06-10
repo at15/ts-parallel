@@ -46,7 +46,7 @@ int main(int argc, char **argv)
                 // std::cout << entity["name"] << std::endl;
                 std::string file_name = entity.value("name", "");
                 int edit_duration = entity.value("total_seconds", 0);
-                days.push_back(toEpoch(date));
+                days.push_back(aya::toEpoch(date));
                 projects.push_back(project_name);
                 file_names.push_back(std::move(file_name));
                 edit_durations.push_back(edit_duration);
