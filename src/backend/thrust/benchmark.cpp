@@ -11,3 +11,8 @@ void ping()
 }
 }
 }
+
+int main(int argc, char ** argv)
+{
+    aya::bench::launch(argc, argv);
+}
