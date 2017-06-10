@@ -3,8 +3,12 @@
 #   option, something like (this will link in libmylib.so and libm.so:
 # LIBS = -lmylib -lm
 LIBS = -lgflags
+CCFLAGS = -Wall -std=c++11
 
-all: mem.bin j.bin flag.bin
+all: mem.bin j.bin flag.bin date.bin
+date.bin: date.cpp
+	g++ $(CCFLAGS) -o date.bin date.cpp
+	./date.bin
 mem.bin: mem.cpp
 	@g++ -o mem.bin mem.cpp
 	@./mem.bin
