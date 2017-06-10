@@ -1,6 +1,7 @@
-CC = g++
+CC = clang++-3.8
 CCFLAGS = -Wall -std=c++11
 LIBS = -lgflags
+NVCC = nvcc --std c++11 -ccbin $(CC)
 
 .PHONY: all
 all: wakatime bench
@@ -17,7 +18,7 @@ boost:
 .PHONY: thrust
 thrust: 
 # $(CC) $(CCFLAGS) -c -o build/thrust.o src/backend/thrust/benchmark.cpp
-	$(CC) $(CCFLAGS) -o build/bench_thrust.o src/backend/thrust/benchmark.cpp $(LIBS)
+	$(NVCC) -o build/bench_thrust src/backend/thrust/benchmark.cu -Xcompiler -Wall $(LIBS)
 
 .PHONY: bench
 bench: boost thrust

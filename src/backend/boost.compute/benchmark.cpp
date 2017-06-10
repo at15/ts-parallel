@@ -40,6 +40,7 @@ void sort(int num)
     // TODO: the demo from boost compute does not have this, but array fire valhalla has this
     queue.finish();
 
+    // FIXME: failed when num is 1000000000
     compute::sort(d_vec.begin(), d_vec.end(), queue);
     queue.finish();
 }
