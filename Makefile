@@ -4,7 +4,7 @@ LIBS = -lgflags
 
 .PHONY:
 wakatime:
-	$(CC) $(CCFLAGS) -o bin/wakatime src/wakatime.cpp $(LIBS)
+	$(CC) $(CCFLAGS) -o bin/wakatime src/wakatime.cpp src/util.cpp $(LIBS)
 
 .PHONY:
 thrust:
