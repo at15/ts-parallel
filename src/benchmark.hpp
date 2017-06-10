@@ -4,6 +4,6 @@ namespace aya
 {
 namespace bench
 {
-static void ping();
+    void ping();
 }
 }

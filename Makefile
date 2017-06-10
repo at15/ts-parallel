@@ -16,7 +16,8 @@ bench:
 # $(CC) $(CCFLAGS) -o bin/bench_thrust build/thrust.o build/bench.o
 # $(CC) $(CCFLAGS) -o bin/bench_thrust src/benchmark.cpp build/thrust.o
 # $(CC) $(CCFLAGS) -o bin/bench_thrust src/backend/thrust/benchmark.cpp src/benchmark.cpp
-	$(CC) $(CCFLAGS) -o bin/bench_thrust src/benchmark.cpp src/backend/thrust/benchmark.cpp 
+# FIXED: can't use static ... https://stackoverflow.com/questions/10812769/static-function-declared-but-not-defined-in-c
+	$(CC) $(CCFLAGS) -o bin/bench_thrust src/bench.cpp src/util.cpp src/backend/thrust/benchmark.cpp $(LIBS)
 	
 
 .PHONY:
