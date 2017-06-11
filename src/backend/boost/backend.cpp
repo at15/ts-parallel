@@ -8,6 +8,12 @@ namespace aya
 {
 namespace backend
 {
+
+void ping()
+{
+    std::cout << "pong from boost backend\n";
+}
+
 template <typename T>
 struct BoostBackend : Backend<T>
 {
@@ -40,7 +46,8 @@ struct BoostBackend : Backend<T>
 };
 
 template <typename T>
-Backend<T>* init(){
+Backend<T> *init()
+{
     return new BoostBackend<T>;
 }
 } // backend

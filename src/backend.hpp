@@ -6,6 +6,8 @@ namespace aya
 namespace backend
 {
 
+void ping();
+
 template<typename T>
 struct Backend
 {

@@ -66,13 +66,14 @@ int main(int argc, char **argv)
         std::cout << i << " " << days[i] << " " << projects[i] << " " << file_names[i] << " " << edit_durations[i] << std::endl;
     }
 
-    auto int_backend = aya::backend::init<int>();
-    auto top_10 = int_backend->topK(edit_durations, 10);
-    for (int i = 0; i < 10; i++)
-    {
-        std::cout << top_10[i] << std::endl;
-    }
-    delete int_backend;
+    aya::backend::ping();
+    // auto int_backend = aya::backend::init<int>();
+    // auto top_10 = int_backend->topK(edit_durations, 10);
+    // for (int i = 0; i < 10; i++)
+    // {
+    //     std::cout << top_10[i] << std::endl;
+    // }
+    // delete int_backend;
 
     google::ShutDownCommandLineFlags();
     return 0;
