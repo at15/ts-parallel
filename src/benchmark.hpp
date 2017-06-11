@@ -9,7 +9,8 @@ namespace bench
 {
 void ping();
 std::string name();
-template<typename T> void sort(int num);
+template <typename T>
+void sort(int num);
 
 int launch(int argc, char **argv)
 {

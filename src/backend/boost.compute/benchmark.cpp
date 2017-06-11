@@ -1,6 +1,5 @@
 #include <boost/compute.hpp>
 
-#include "../../common.hpp"
 #include "../../benchmark.hpp"
 
 namespace compute = boost::compute;

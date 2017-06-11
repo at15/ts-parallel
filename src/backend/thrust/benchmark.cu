@@ -1,6 +1,3 @@
-#include <iostream>
-#include <algorithm>
-
 #include <thrust/host_vector.h>
 #include <thrust/device_vector.h>
 #include <thrust/sort.h>

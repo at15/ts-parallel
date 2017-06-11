@@ -1,7 +1,7 @@
 CC = g++-5
 CCFLAGS = -Wall -std=c++11
 LIBS = -lgflags
-NVCC = nvcc --std=c++11 -ccbin $(CC)
+NVCC = nvcc -ccbin $(CC) -std=c++11 -arch=sm_53
 
 .PHONY: all
 all: wakatime bench
@@ -9,27 +9,31 @@ all: wakatime bench
 .PHONY: wakatime
 wakatime: 
 	$(CC) $(CCFLAGS) -o bin/wakatime src/wakatime.cpp $(LIBS)
-	
+
+.PHONY: bench
+bench: boost thrust serial
+# $(CC) $(CCFLAGS) -c -o build/bench.o src/bench.cpp $(LIBS)
+# FIXED: can't use static in header for declaration https://stackoverflow.com/questions/10812769/static-function-declared-but-not-defined-in-c
+# $(CC) $(CCFLAGS) -o bin/bench_thrust build/thrust.o build/bench.o
+# $(CC) $(CCFLAGS) -o bin/bench_boost build/boost.o build/bench.o
+
+# -------------------
+# Backends
+# -------------------
+.PHONY: serial
+serial:
+	$(CC) $(CCFLAGS) -o bin/bench_serial src/backend/serial/benchmark.cpp $(LIBS)
+
 .PHONY: boost
 boost: 
 # $(CC) $(CCFLAGS) -c -o build/boost.o src/backend/boost.compute/benchmark.cpp
 	$(CC) $(CCFLAGS) -o bin/bench_boost src/backend/boost.compute/benchmark.cpp $(LIBS) -lOpenCL
 
 .PHONY: thrust
-thrust: 
-# $(CC) $(CCFLAGS) -c -o build/thrust.o src/backend/thrust/benchmark.cpp
-# $(NVCC) -o build/bench_thrust src/backend/thrust/benchmark.cu -Xcompiler -D__CORRECT_ISO_CPP11_MATH_H_PROTO
-# nvcc -c -ccbin clang++-3.8 -o build/thrust.o src/backend/thrust/benchmark.cu
-# $(CC) $(CCFLAGS) -c -o build/bench.o src/benchmark.cpp 
-# $(CC) $(CCFLAGS) -o bin/bench_thrust build/thrust.o build/bench.o $(LIBS)
+thrust:
+# FIXME: got warnning from json.hpp
+# TODO: http://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html#using-separate-compilation-in-cuda
 	$(NVCC) -o bin/bench_thrust src/backend/thrust/benchmark.cu $(LIBS)
-
-.PHONY: bench
-bench: boost thrust
-# $(CC) $(CCFLAGS) -c -o build/bench.o src/bench.cpp $(LIBS)
-# FIXED: can't use static in header for declaration https://stackoverflow.com/questions/10812769/static-function-declared-but-not-defined-in-c
-# $(CC) $(CCFLAGS) -o bin/bench_thrust build/thrust.o build/bench.o
-# $(CC) $(CCFLAGS) -o bin/bench_boost build/boost.o build/bench.o
 
 .PHONY: clean
 clean:
