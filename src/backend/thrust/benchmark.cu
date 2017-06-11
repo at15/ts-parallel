@@ -19,27 +19,6 @@ std::string name()
 }
 
 template <typename T>
-void sort(int num)
-{
-    std::cout << "sort " << num << std::endl;
-
-    // FIXME: static cause the following problem
-    //     terminate called after throwing an instance of 'thrust::system::system_error'
-    //   what():  cudaFree in free: driver shutting down
-    // static thrust::device_vector<T> d_vec;
-    thrust::device_vector<T> d_vec;
-
-    thrust::host_vector<T> h_vec(num);
-    std::generate(h_vec.begin(), h_vec.end(), rand);
-    d_vec = h_vec;
-    cudaDeviceSynchronize();
-    thrust::sort(d_vec.begin(), d_vec.end());
-    cudaDeviceSynchronize();
-
-    std::cout << "sort finished" << std::endl;
-}
-
-template <typename T>
 struct ThrustBenchmarkBackend : BenchmarkBackend<T>
 {
     ~ThrustBenchmarkBackend()
@@ -69,6 +48,12 @@ struct ThrustBenchmarkBackend : BenchmarkBackend<T>
         std::cout << "sort finished\n";
     }
 
+    void reduce()
+    {
+        thrust::reduce(d_vec.begin(), d_vec.end());
+        cudaDeviceSynchronize();
+    }
+
   private:
     thrust::host_vector<T> h_vec;
     thrust::device_vector<T> d_vec;
@@ -79,8 +64,9 @@ BenchmarkBackend<T> *init()
 {
     return new ThrustBenchmarkBackend<T>;
 }
-}
-}
+
+} // bench
+} // aya::bench
 
 int main(int argc, char **argv)
 {

@@ -9,10 +9,9 @@ namespace aya
 {
 namespace bench
 {
+
 void ping();
 std::string name();
-template <typename T>
-void sort(int num);
 
 std::string reportFileName()
 {
@@ -21,17 +20,13 @@ std::string reportFileName()
     return os.str();
 }
 
-// template <typename T>
-// void benchSort()
-// {
-// }
-
 template <typename T>
 struct BenchmarkBackend
 {
     virtual void generate(int) = 0;
     virtual void copy() = 0;
     virtual void sort() = 0;
+    virtual void reduce() = 0;
     virtual ~BenchmarkBackend() {}
 };
 
@@ -66,11 +61,19 @@ bench --op sort --num 1000 --type int
     auto back_end = init<int>();
     back_end->generate(FLAGS_num);
     back_end->copy();
-    back_end->sort();
+    if (FLAGS_op == "sort") {
+        back_end->sort();
+    } else if (FLAGS_op == "reduce") {
+        back_end->reduce();
+    } else {
+        std::cout << "unknown operation" << FLAGS_op << std::endl;
+    }
+    
     delete back_end;
 
     google::ShutDownCommandLineFlags();
     return 0;
 }
-}
-}
+
+} // bench
+} // aya::bench

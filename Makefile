@@ -6,6 +6,10 @@ NVCC = nvcc -ccbin $(CC) -std=c++11 -arch=sm_53
 .PHONY: all
 all: wakatime bench
 
+.PHONY: loc
+loc:
+	cloc src
+
 .PHONY: wakatime
 wakatime: 
 	$(CC) $(CCFLAGS) -o bin/wakatime src/wakatime.cpp $(LIBS)
