@@ -18,6 +18,13 @@ void ping()
 template <typename T>
 struct Backend
 {
+    Backend()
+    {
+        gpu = compute::system::default_device();
+        context = compute::context(gpu);
+        queue = compute::command_queue(context, gpu);
+    }
+    
     ~Backend()
     {
         std::cout << "boost backend destructor called\n";
@@ -27,7 +34,7 @@ struct Backend
     {
         auto d_vec = compute::vector<T>(src.size(), context);
         compute::copy(src.begin(), src.end(), d_vec.begin(), queue);
-        compute::sort(d_vec.begin(), d_vec.end(), std::greater<T>(), queue);
+        compute::sort(d_vec.begin(), d_vec.end(), compute::greater<T>(), queue);
         queue.finish();
         if (k > src.size())
         {
