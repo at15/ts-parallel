@@ -87,7 +87,7 @@ void run_bench()
     aya::CSVWriter w(reportFileName());
     w.W("stage", "duration");
     auto begin = std::chrono::steady_clock::now();
-    
+
     auto back_end = init<T>();
     w.W("init", elapsedNano(begin));
     begin = std::chrono::steady_clock::now();

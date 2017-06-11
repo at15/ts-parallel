@@ -8,7 +8,7 @@ namespace backend
 
 void ping();
 
-template<typename T>
+template <typename T>
 struct Backend
 {
     virtual ~Backend() {}
@@ -16,7 +16,12 @@ struct Backend
 };
 
 template <typename T>
-Backend<T>* init();
+Backend<T> *init();
+
+inline Backend<int> *initInt()
+{
+    return init<int>();
+}
 
 } // backend
 } // aya::backend
