@@ -1,6 +1,7 @@
 #pragma once
 #include "common.hpp"
 
+DEFINE_string(type, "int", "data type int|float|double");
 DEFINE_uint64(num, 1000, "length of vector");
 
 namespace aya
@@ -12,9 +13,19 @@ std::string name();
 template <typename T>
 void sort(int num);
 
+// template <typename T>
+// void benchSort()
+// {
+// }
+
 int launch(int argc, char **argv)
 {
-    std::string usage = "Benchmark " + name() + "\n";
+    std::string usage = "Benchmark " + name() + R"HA(
+bench --type int --num 1000
+    --type string int|float|double
+    --num  uint64 larger than 1000000000 fails on GPU #5
+)HA";
+
     google::SetUsageMessage(usage);
     gflags::SetVersionString("0.0.1");
 
@@ -27,8 +38,7 @@ int launch(int argc, char **argv)
 
     gflags::ParseCommandLineFlags(&argc, &argv, true);
 
-    std::cout << "let's run some benchmark" << std::endl;
-    aya::ping();
+    std::cout << "Run some benchmark" << std::endl;
     ping();
     sort<int>(FLAGS_num);
 
