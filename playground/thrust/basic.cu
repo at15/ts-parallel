@@ -1,5 +1,5 @@
 /*
-* nvcc -ccbin clang++-3.8 thrust_sort.cu
+* nvcc -ccbin clang++-3.8 basic.cu
 * http://docs.nvidia.com/cuda/thrust/#axzz4hU87jIHe
 * TODO: sort is not implemented, this example just generate array
 */
@@ -11,6 +11,9 @@
 #include <thrust/sequence.h>
 
 #include <iostream>
+
+#include <iostream>
+#include <algorithm>
 
 int main(void)
 {

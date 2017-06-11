@@ -2,8 +2,11 @@
 #include <thrust/device_vector.h>
 #include <thrust/sort.h>
 
-#include "../../common.hpp"
-#include "../../benchmark.hpp"
+// #include "../../common.hpp"
+// #include "../../benchmark.hpp"
+
+#include <iostream>
+#include <algorithm>
 
 namespace aya
 {
@@ -37,5 +40,5 @@ void sort(int num)
 
 int main(int argc, char **argv)
 {
-   return aya::bench::launch(argc, argv);
+//    return aya::bench::launch(argc, argv);
 }
