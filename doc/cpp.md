@@ -1,7 +1,7 @@
 # All the stuff I don't know about CPP
 
 
-## static 
+## static
 
 - can't declare static functions in header without definition
   - array fire valhalla defined static function in header, but is it just called in other header file
@@ -46,8 +46,13 @@ make: *** [bench] Error 1
 
 ## parameter pack
 
-- use to implement variadic functions 
+- use to implement variadic functions
 - http://kevinushey.github.io/blog/2016/01/27/introduction-to-c++-variadic-templates/
 - need a base function
 - use `sizeof...(Args)` to get the size of parameters
 - see playground/csv/write.cpp
+
+## class
+
+- abstract class need virtual destructor
+  - https://stackoverflow.com/questions/461203/when-to-use-virtual-destructors

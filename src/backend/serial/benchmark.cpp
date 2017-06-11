@@ -21,10 +21,8 @@ void sort(int num)
     std::sort(vec.begin(), vec.end());
     std::cout << "sort finished " << std::endl;
 }
-}
 
-// TODO: why I need full namespace when using class in same namespace ...
-struct SerialBenchmarkBackend : aya::bench::BenchmarkBackend
+struct SerialBenchmarkBackend : BenchmarkBackend
 {
     void generate()
     {
@@ -35,12 +33,19 @@ struct SerialBenchmarkBackend : aya::bench::BenchmarkBackend
     {
         std::cout << "copy\n";
     }
+
+    void sort()
+    {
+        std::cout << "sort\n";
+    }
 };
 
-*aya::bench::BenchmarkBackend init()
+BenchmarkBackend* init()
 {
     return new SerialBenchmarkBackend;
 }
+}
+
 }
 
 int main(int argc, char **argv)
