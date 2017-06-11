@@ -2,7 +2,7 @@
 
 #include <boost/compute.hpp>
 
-#include "../../backend.hpp"
+#include "../../common.hpp"
 
 namespace aya
 {
@@ -16,9 +16,9 @@ void ping()
 }
 
 template <typename T>
-struct BoostBackend : Backend<T>
+struct Backend
 {
-    ~BoostBackend()
+    ~Backend()
     {
         std::cout << "boost backend destructor called\n";
     }
@@ -49,7 +49,7 @@ struct BoostBackend : Backend<T>
 template <typename T>
 Backend<T> *init()
 {
-    return new BoostBackend<T>;
+    return new Backend<T>;
 }
 } // backend
 } // aya::backend
