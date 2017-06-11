@@ -26,14 +26,17 @@ std::string reportFileName()
 // {
 // }
 
-struct BenchmarkBackend {
-    virtual void generate() = 0;
+template <typename T>
+struct BenchmarkBackend
+{
+    virtual void generate(int) = 0;
     virtual void copy() = 0;
     virtual void sort() = 0;
     virtual ~BenchmarkBackend() {}
 };
 
-BenchmarkBackend* init();
+template <typename T>
+BenchmarkBackend<T> *init();
 
 int launch(int argc, char **argv)
 {
@@ -60,9 +63,10 @@ bench --op sort --num 1000 --type int
     // ping();
     // sort<int>(FLAGS_num);
     std::cout << reportFileName() << std::endl;
-    auto back_end = init();
-    back_end->generate();
+    auto back_end = init<int>();
+    back_end->generate(FLAGS_num);
     back_end->copy();
+    back_end->sort();
     delete back_end;
 
     google::ShutDownCommandLineFlags();

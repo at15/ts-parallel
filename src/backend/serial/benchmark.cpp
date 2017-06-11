@@ -22,30 +22,44 @@ void sort(int num)
     std::cout << "sort finished " << std::endl;
 }
 
-struct SerialBenchmarkBackend : BenchmarkBackend
+template <typename T>
+struct SerialBenchmarkBackend : BenchmarkBackend<T>
 {
-    void generate()
+    ~SerialBenchmarkBackend()
     {
-        std::cout << "generate!\n";
+        std::cout << "serial benchmark backend destructor called " << std::endl;
+    }
+
+    void generate(int num)
+    {
+        std::cout << "generateing !\n";
+        vec.resize(num);
+        std::generate(vec.begin(), vec.end(), rand);
+        std::cout << "generated !\n";
     }
 
     void copy()
     {
-        std::cout << "copy\n";
+        std::cout << "no need to copy\n";
     }
 
     void sort()
     {
-        std::cout << "sort\n";
+        std::cout << "start sorting\n";
+        std::sort(vec.begin(), vec.end());
+        std::cout << "sort finished\n";
     }
+
+  private:
+    std::vector<T> vec;
 };
 
-BenchmarkBackend* init()
+template <typename T>
+BenchmarkBackend<T> *init()
 {
-    return new SerialBenchmarkBackend;
+    return new SerialBenchmarkBackend<T>;
 }
 }
-
 }
 
 int main(int argc, char **argv)
