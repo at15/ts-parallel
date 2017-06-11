@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -11,8 +13,4 @@
 
 #include <gflags/gflags.h>
 
-#include "../third_party/json.hpp"
-
 #include "util.hpp"
-
-using json = nlohmann::json;

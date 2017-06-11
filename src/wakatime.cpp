@@ -1,4 +1,7 @@
 #include "common.hpp"
+#include "../third_party/json.hpp"
+
+using json = nlohmann::json;
 
 DEFINE_string(data, "../data/at15.json", "wakatime json dump");
 
