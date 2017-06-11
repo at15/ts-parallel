@@ -1,5 +1,9 @@
 /*
 * nvcc -ccbin clang++-3.8 basic.cu
+* this will have error due to gcc header
+* nvcc -ccbin clang++-3.8 --std=c++11 basic.cu
+* this works, need to install g++-5
+* nvcc -ccbin g++-5 --std=c++11 basic.cu
 * http://docs.nvidia.com/cuda/thrust/#axzz4hU87jIHe
 * TODO: sort is not implemented, this example just generate array
 */

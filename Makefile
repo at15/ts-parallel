@@ -1,7 +1,7 @@
-CC = clang++-3.8
+CC = g++-5
 CCFLAGS = -Wall -std=c++11
 LIBS = -lgflags
-NVCC = nvcc --std c++11 -ccbin $(CC)
+NVCC = nvcc --std=c++11 -ccbin $(CC)
 
 .PHONY: all
 all: wakatime bench
