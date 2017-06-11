@@ -15,13 +15,8 @@ struct Backend
     virtual std::vector<T> topK(const std::vector<T> src, int k);
 };
 
-template <typename T>
-Backend<T> *init();
-
-inline Backend<int> *initInt()
-{
-    return init<int>();
-}
+// template <typename T>
+// Backend<T> *init();
 
 } // backend
 } // aya::backend

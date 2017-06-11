@@ -1,14 +1,15 @@
+#pragma once
+
 #include <boost/compute.hpp>
 
 #include "../../backend.hpp"
-
-namespace compute = boost::compute;
 
 namespace aya
 {
 namespace backend
 {
 
+namespace compute = boost::compute;
 void ping()
 {
     std::cout << "pong from boost backend\n";

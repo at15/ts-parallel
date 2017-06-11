@@ -15,7 +15,9 @@ wakatime:
 # $(CC) $(CCFLAGS) -o bin/wakatime src/wakatime.cpp $(LIBS)
 # $(CC) $(CCFLAGS) -c -o build/wakatime.o src/wakatime.cpp $(LIBS)
 # $(CC) $(CCFLAGS) build/wakatime.o build/boost.o -o bin/wakatime $(LIBS) -lOpenCL
-	$(CC) $(CCFLAGS) -o bin/wakatime src/backend/boost/backend.cpp src/wakatime.cpp $(LIBS) -lOpenCL
+# $(CC) $(CCFLAGS) -o bin/wakatime src/backend/boost/backend.cpp src/wakatime.cpp $(LIBS) -lOpenCL
+	$(CC) $(CCFLAGS) -o bin/wakatime src/wakatime.cpp $(LIBS) -lOpenCL
+	
 
 .PHONY: bench
 bench: boost thrust serial
