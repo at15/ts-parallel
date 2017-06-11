@@ -11,6 +11,8 @@
 
 #include <memory>
 
+#include <chrono>
+
 // third party
 #include <gflags/gflags.h>
 // FIXME: this generate warning when compile using nvcc

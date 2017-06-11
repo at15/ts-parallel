@@ -119,7 +119,7 @@ void ReadHeader()
 int main()
 {
   std::cout << "Hello world" << std::endl;
-  ReadHeader();
-  // ReadFile();
+  // ReadHeader();
+  ReadFile();
   return 0;
 }

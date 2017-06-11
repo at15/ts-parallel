@@ -74,12 +74,31 @@ struct BenchmarkBackend
 template <typename T>
 BenchmarkBackend<T> *init();
 
+int elapsedNano(const std::chrono::steady_clock::time_point &begin)
+{
+    auto now = std::chrono::steady_clock::now();
+    return std::chrono::duration_cast<std::chrono::nanoseconds>(now - begin).count();
+}
+
 template <typename T>
 void run_bench()
 {
+    aya::CSVWriter w(reportFileName());
+    w.W("stage", "duration");
+    auto begin = std::chrono::steady_clock::now();
+    
     auto back_end = init<T>();
+    w.W("init", elapsedNano(begin));
+    begin = std::chrono::steady_clock::now();
+
     back_end->generate(FLAGS_num);
+    w.W("generate", elapsedNano(begin));
+    begin = std::chrono::steady_clock::now();
+
     back_end->copy();
+    w.W("copy", elapsedNano(begin));
+    begin = std::chrono::steady_clock::now();
+
     if (FLAGS_op == "sort")
     {
         back_end->sort();
@@ -93,7 +112,11 @@ void run_bench()
         std::cout << "unknown operation " << FLAGS_op << std::endl;
         // TODO: we should return non-zero, but we also need to copy the clean up code
     }
+    w.W("run", elapsedNano(begin));
+    begin = std::chrono::steady_clock::now();
+
     delete back_end;
+    w.W("delete", elapsedNano(begin));
 }
 
 int launch(int argc, char **argv)
