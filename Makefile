@@ -28,8 +28,16 @@ bench: boost thrust serial
 serial:
 	$(CC) $(CCFLAGS) -o bin/bench_serial src/backend/serial/benchmark.cpp $(LIBS)
 
+.PHONY: boost_bench
+boost_bench: src/benchmark.hpp src/backend/boost/benchmark.cpp
+	$(CC) $(CCFLAGS) -o bin/bench_boost src/backend/boost/benchmark.cpp $(LIBS) -lOpenCL
+
+.PHONY: boost_backend
+boost_backend:
+	$(CC) $(CCFLAGS) -c -o build/boost.o src/backend/boost/backend.cpp $(LIBS) -lOpenCL
+
 .PHONY: boost
-boost: 
+boost: boost_bench boost_backend
 # $(CC) $(CCFLAGS) -c -o build/boost.o src/backend/boost.compute/benchmark.cpp
 	$(CC) $(CCFLAGS) -o bin/bench_boost src/backend/boost/benchmark.cpp $(LIBS) -lOpenCL
 
