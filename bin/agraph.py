@@ -58,7 +58,8 @@ def main():
         plt.title(op)
         plt.xlabel("Vector length")
         # TODO: ylabel is not shown, and the color changes in different figure
-        plt.ylabel("Time (ns)")
+        # NOTE: we are using microseconds, because nano seconds got negative value
+        plt.ylabel("Time (us)")
         plt.legend(loc='upper right', shadow=True, fontsize='x-small')
     plt.show()
 

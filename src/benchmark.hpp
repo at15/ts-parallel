@@ -77,7 +77,8 @@ BenchmarkBackend<T> *init();
 int elapsedNano(const std::chrono::steady_clock::time_point &begin)
 {
     auto now = std::chrono::steady_clock::now();
-    return std::chrono::duration_cast<std::chrono::nanoseconds>(now - begin).count();
+    // FIXME: when using nanoseconds, we got negative value ... std::chrono::nanoseconds
+    return std::chrono::duration_cast<std::chrono::microseconds>(now - begin).count();
 }
 
 template <typename T>
