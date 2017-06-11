@@ -33,11 +33,12 @@ def main():
                         # print(results)
     print(data)
     # now let's draw the graph
-    plot_data = []
+    plot_data = {}
     for op, backends in data.items():
         print(op)
+        plot_data[op] = []
         for backend, results in backends.items():
-            pdata = {"name": op + "_" + backend, "x": [], "y": []}
+            pdata = {"name": backend, "x": [], "y": []}
             print(backend)
             # [(10, {'init': '2771', 'generate': '7667', 'copy': '112781784', 'run': '825079', 'delete': '67504'}), (50, {'init': '1045', 'generate': '8579', 'copy': '110102907', 'run': '1389482', 'delete': '68685'})]
             sorted_results = sorted(results.items())
@@ -46,11 +47,19 @@ def main():
                 print(num)
                 pdata["x"].append(num)
                 pdata["y"].append(stages["run"])
-            plot_data.append(pdata)
+            plot_data[op].append(pdata)
     print(plot_data)
-    for pdata in plot_data:
-        plt.plot(pdata["x"], pdata["y"], label=pdata["name"])
-    plt.legend(loc='top right', shadow=True, fontsize='x-small')
+    i = 1
+    for op, pdatas in plot_data.items():
+        plt.figure(i)
+        i += 1
+        for pdata in pdatas:
+            plt.plot(pdata["x"], pdata["y"], label=pdata["name"])
+        plt.title(op)
+        plt.xlabel("Vector length")
+        # TODO: ylabel is not shown, and the color changes in different figure
+        plt.ylabel("Time (ns)")
+        plt.legend(loc='upper right', shadow=True, fontsize='x-small')
     plt.show()
 
 
