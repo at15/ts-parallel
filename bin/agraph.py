@@ -45,6 +45,9 @@ def main():
             for result in sorted_results:
                 num, stages = result
                 print(num)
+                if "run" not in stages:
+                    print("didn't find run!", op, backend, num)
+                    continue
                 pdata["x"].append(num)
                 pdata["y"].append(stages["run"])
             plot_data[op].append(pdata)
