@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <fstream>
 #include <sstream>
 #include <iomanip>
 
@@ -27,4 +28,32 @@ inline int toEpoch(const std::string &date)
     // FIXME: the hour, minute, second are all -1, see playgroudn/cpp/date.cpp
     return std::mktime(&t);
 }
+
+struct CSVWriter
+{
+    CSVWriter(std::string file_name) : f(file_name)
+    {
+    }
+    ~CSVWriter()
+    {
+        f.close();
+    }
+    void W()
+    {
+        f << std::endl;
+    }
+    template <typename T, typename... TArgs>
+    void W(T value, TArgs... FArgs)
+    {
+        f << value;
+        if (sizeof...(FArgs) != 0)
+        {
+            f << ",";
+        }
+        W(FArgs...);
+    }
+
+  private:
+    std::ofstream f;
+};
 }

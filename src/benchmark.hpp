@@ -2,6 +2,7 @@
 #include "common.hpp"
 
 DEFINE_string(type, "int", "data type int|float|double");
+DEFINE_string(op, "sort", "operation sort|reduce");
 DEFINE_uint64(num, 1000, "length of vector");
 
 namespace aya
@@ -13,17 +14,32 @@ std::string name();
 template <typename T>
 void sort(int num);
 
+std::string reportFileName()
+{
+    std::ostringstream os;
+    os << name() << "_" << FLAGS_op << "_" << FLAGS_num << "_" << FLAGS_type << ".csv";
+    return os.str();
+}
+
 // template <typename T>
 // void benchSort()
 // {
 // }
 
+struct BenchmarkBackend {
+    virtual void generate() = 0;
+    virtual void copy() = 0;
+};
+
+*BenchmarkBackend init();
+
 int launch(int argc, char **argv)
 {
     std::string usage = "Benchmark " + name() + R"HA(
-bench --type int --num 1000
-    --type string int|float|double
+bench --op sort --num 1000 --type int
+    --op   string sort|reduce
     --num  uint64 larger than 1000000000 fails on GPU #5
+    --type string int|float|double
 )HA";
 
     google::SetUsageMessage(usage);
@@ -38,9 +54,10 @@ bench --type int --num 1000
 
     gflags::ParseCommandLineFlags(&argc, &argv, true);
 
-    std::cout << "Run some benchmark" << std::endl;
-    ping();
-    sort<int>(FLAGS_num);
+    std::cout << "Let's run some benchmark \\w/" << std::endl;
+    // ping();
+    // sort<int>(FLAGS_num);
+    std::cout << reportFileName() << std::endl;
 
     google::ShutDownCommandLineFlags();
     return 0;
