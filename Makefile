@@ -12,7 +12,9 @@ loc:
 
 .PHONY: wakatime
 wakatime: 
-	$(CC) $(CCFLAGS) -o bin/wakatime src/wakatime.cpp $(LIBS)
+# $(CC) $(CCFLAGS) -o bin/wakatime src/wakatime.cpp $(LIBS)
+	$(CC) $(CCFLAGS) -c -o build/wakatime.o src/wakatime.cpp $(LIBS)
+	$(CC) $(CCFLAGS) build/boost.o build/wakatime.o -o bin/wakatime $(LIBS) -lOpenCL
 
 .PHONY: bench
 bench: boost thrust serial
@@ -39,7 +41,7 @@ boost_backend:
 .PHONY: boost
 boost: boost_bench boost_backend
 # $(CC) $(CCFLAGS) -c -o build/boost.o src/backend/boost.compute/benchmark.cpp
-	$(CC) $(CCFLAGS) -o bin/bench_boost src/backend/boost/benchmark.cpp $(LIBS) -lOpenCL
+# $(CC) $(CCFLAGS) -o bin/bench_boost src/backend/boost/benchmark.cpp $(LIBS) -lOpenCL
 
 .PHONY: thrust
 thrust:

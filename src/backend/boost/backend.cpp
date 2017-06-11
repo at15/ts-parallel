@@ -8,13 +8,14 @@ namespace aya
 {
 namespace backend
 {
-struct BoostBackend : Backend
+template <typename T>
+struct BoostBackend : Backend<T>
 {
     ~BoostBackend()
     {
         std::cout << "boost backend destructor called\n";
     }
-    template <typename T>
+
     std::vector<T> topK(const std::vector<T> &src, int k)
     {
         auto d_vec = compute::vector<T>(src.size(), context);
@@ -37,5 +38,10 @@ struct BoostBackend : Backend
     compute::context context;
     compute::command_queue queue;
 };
+
+template <typename T>
+Backend<T>* init(){
+    return new BoostBackend<T>;
+}
 } // backend
 } // aya::backend

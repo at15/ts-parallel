@@ -6,14 +6,15 @@ namespace aya
 namespace backend
 {
 
+template<typename T>
 struct Backend
 {
     virtual ~Backend() {}
-    template <typename T>
     virtual std::vector<T> topK(const std::vector<T> src, int k);
 };
 
-Backend* init();
+template <typename T>
+Backend<T>* init();
 
 } // backend
 } // aya::backend

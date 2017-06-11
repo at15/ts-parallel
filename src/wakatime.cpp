@@ -1,6 +1,8 @@
 #include "common.hpp"
 #include "../third_party/json.hpp"
 
+#include "backend.hpp"
+
 using json = nlohmann::json;
 
 DEFINE_string(data, "../data/at15.json", "wakatime json dump");
@@ -59,9 +61,18 @@ int main(int argc, char **argv)
 
     int num_rows = days.size();
     std::cout << "total " << num_rows << " rows" << std::endl;
-    for (int i = 0; i < 20; i++) {
-        std::cout << i << " " << days[i] << " " << projects[i] << " " << file_names[i] << " " << edit_durations[i] << std::endl; 
+    for (int i = 0; i < 20; i++)
+    {
+        std::cout << i << " " << days[i] << " " << projects[i] << " " << file_names[i] << " " << edit_durations[i] << std::endl;
     }
+
+    auto int_backend = aya::backend::init<int>();
+    auto top_10 = int_backend->topK(edit_durations, 10);
+    for (int i = 0; i < 10; i++)
+    {
+        std::cout << top_10[i] << std::endl;
+    }
+    delete int_backend;
 
     google::ShutDownCommandLineFlags();
     return 0;
