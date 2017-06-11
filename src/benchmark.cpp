@@ -1,4 +1,3 @@
-#include "common.hpp"
 #include "benchmark.hpp"
 
 DEFINE_uint64(num, 1000, "length of vector");

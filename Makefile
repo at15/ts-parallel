@@ -20,8 +20,9 @@ thrust:
 # $(CC) $(CCFLAGS) -c -o build/thrust.o src/backend/thrust/benchmark.cpp
 # $(NVCC) -o build/bench_thrust src/backend/thrust/benchmark.cu -Xcompiler -D__CORRECT_ISO_CPP11_MATH_H_PROTO
 # nvcc -c -ccbin clang++-3.8 -o build/thrust.o src/backend/thrust/benchmark.cu
-	$(CC) $(CCFLAGS) -c -o build/bench.o src/benchmark.cpp 
-	$(CC) $(CCFLAGS) -o bin/bench_thrust build/thrust.o build/bench.o $(LIBS)
+# $(CC) $(CCFLAGS) -c -o build/bench.o src/benchmark.cpp 
+# $(CC) $(CCFLAGS) -o bin/bench_thrust build/thrust.o build/bench.o $(LIBS)
+	$(NVCC) -o bin/bench_thrust src/backend/thrust/benchmark.cu $(LIBS)
 
 .PHONY: bench
 bench: boost thrust
