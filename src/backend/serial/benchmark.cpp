@@ -27,7 +27,7 @@ struct SerialBenchmarkBackend : BenchmarkBackend<T>
 {
     ~SerialBenchmarkBackend()
     {
-        std::cout << "serial benchmark backend destructor called " << std::endl;
+        std::cout << "serial benchmark backend destructor called" << std::endl;
     }
 
     void generate(int num)
