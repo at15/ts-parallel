@@ -15,7 +15,7 @@ void ping()
 
 std::string name()
 {
-    return "boost.compute";
+    return "boost";
 }
 
 template <typename T>

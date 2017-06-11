@@ -31,7 +31,7 @@ serial:
 .PHONY: boost
 boost: 
 # $(CC) $(CCFLAGS) -c -o build/boost.o src/backend/boost.compute/benchmark.cpp
-	$(CC) $(CCFLAGS) -o bin/bench_boost src/backend/boost.compute/benchmark.cpp $(LIBS) -lOpenCL
+	$(CC) $(CCFLAGS) -o bin/bench_boost src/backend/boost/benchmark.cpp $(LIBS) -lOpenCL
 
 .PHONY: thrust
 thrust:
