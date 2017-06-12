@@ -16,9 +16,12 @@ std::vector<std::string> splitAsString(const std::string line)
     line_stream << line;
     while (std::getline(line_stream, cell, ','))
     {
-        values.push_back(cell);
+        values.push_back(std::move(cell));
     }
     std::cout << values.size() << std::endl;
+    for (auto s : values) {
+        std::cout << s << " ";
+    }
     return values;
 }
 
@@ -93,10 +96,14 @@ csv
     std::cout << line << std::endl;
     std::vector<std::string> header = splitAsString(line);
     std::cout << header.size() << std::endl;
+    // FIXME: this seems to be the problem of the print .... 
     for (const auto &h : header)
     {
         std::cout << h << " ";
     }
+    std::cout << header[0];
+    std::cout << header[1];
+    
 
     google::ShutDownCommandLineFlags();
     return 0;
