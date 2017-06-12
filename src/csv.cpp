@@ -105,9 +105,27 @@ csv
 
     // FIXME: we use fixed data
     std::vector<std::string> days;
+
+    int project_encoding = 0;
+    // NOTE: if we use a ordered map, we already have unique projects ....
+    // TODO: we can know the exact space we gonna use when run reduce in cuda because we have this dict
+    // NOTE: we need to dict
+    std::unordered_map<std::string, int> projects_dict;
+    std::unordered_map<int, std::string> projects_inverted_dict;
     std::vector<std::string> projects;
+    std::vector<int> encoded_projects;
+
+    int file_name_encoding = 0;
+    std::unordered_map<std::string, int> file_names_dict;
+    std::unordered_map<int, std::string> file_names_inverted_dict;
     std::vector<std::string> file_names;
+    std::vector<int> encoded_file_names;
+
+    // NOTE: just try to initialize it without know how to type the full type
+    auto search = projects_dict.find("haha");
+
     std::vector<int> edit_durations;
+
     int unsupported_rows = 0;
     while (std::getline(f, line))
     {
@@ -121,10 +139,35 @@ csv
                 days.push_back(std::move(cell));
                 break;
             case 1:
-                projects.push_back(std::move(cell));
+                projects.push_back(cell);
+                // NOTE: https://stackoverflow.com/questions/326062/in-stl-maps-is-it-better-to-use-mapinsert-than
+                search = projects_dict.find(cell);
+                if (search != projects_dict.end())
+                {
+                    encoded_projects.push_back(search->second);
+                }
+                else
+                {
+                    projects_dict[cell] = project_encoding;
+                    projects_inverted_dict[project_encoding] = cell;
+                    encoded_projects.push_back(project_encoding);
+                    project_encoding++;
+                }
                 break;
             case 2:
-                file_names.push_back(std::move(cell));
+                file_names.push_back(cell);
+                search = file_names_dict.find(cell);
+                if (search != file_names_dict.end())
+                {
+                    encoded_file_names.push_back(search->second);
+                }
+                else
+                {
+                    file_names_dict[cell] = file_name_encoding;
+                    file_names_inverted_dict[file_name_encoding] = cell;
+                    encoded_file_names.push_back(file_name_encoding);
+                    file_name_encoding++;
+                }
                 break;
             case 3:
                 try
@@ -153,7 +196,7 @@ csv
         std::cout << top_10[i] << std::endl;
     }
 
-    std::cout << "top k with indicies" << std::endl;
+    std::cout << "\ntop k with indicies" << std::endl;
 
     std::vector<int> indices(10);
     top_10 = int_backend->topK(edit_durations, 10, indices);
@@ -163,12 +206,24 @@ csv
         std::cout << j << " " << days[j] << " " << projects[j] << " " << file_names[j] << " " << edit_durations[j] << std::endl;
     }
 
+    std::cout << "\ntop 10 files with time" << std::endl;
+
     std::vector<int> durations(10);
-    auto top_10_files = int_backend->groupByTopK(projects, edit_durations, 10, durations);
+    // NOTE: thrust can't sort string
+    // auto top_10_files = int_backend->groupByTopK(projects, edit_durations, 10, durations);
+    auto top_10_files = int_backend->groupByTopK(encoded_file_names, edit_durations, 10, durations);
     for (int i = 0; i < 10; i++)
     {
-        std::cout << top_10_files[i] << " " << durations[i] << std::endl;
+        std::cout << top_10_files[i] << " " << file_names_inverted_dict[top_10_files[i]] << " " << durations[i] << std::endl;
     }
+
+    std::cout << "\ntop 10 projects with time" << std::endl;
+    auto top_10_projects = int_backend->groupByTopK(encoded_projects, edit_durations, 10, durations);
+    for (int i = 0; i < 10; i++)
+    {
+        std::cout << top_10_projects[i] << " " << projects_inverted_dict[top_10_projects[i]] << " " << durations[i] << std::endl;
+    }
+
     delete int_backend;
 
     google::ShutDownCommandLineFlags();
