@@ -12,3 +12,4 @@ a.out
 .project
 .settings
 src/wakatime.cu
+src/csv.cu

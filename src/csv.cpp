@@ -1,11 +1,19 @@
 #include "common.hpp"
 
+#ifdef WAKA_BOOST
+#include "backend/boost/backend.hpp"
+#endif
+
+#ifdef WAKA_THRUST
+#include "backend/thrust/backend.hpp"
+#endif
+
 #define CSV_INT 1
 #define CSV_FLOAT 2
 #define CSV_STRING 3
 
 DEFINE_string(file, "at15.csv", "csv file");
-DEFINE_string(schema, "", "csv schema");
+DEFINE_string(schema, "s,s,s,i", "csv schema");
 
 std::vector<std::string> splitAsString(const std::string line)
 {
@@ -137,6 +145,20 @@ csv
         line_stream.clear();
     }
     std::cout << "unsupported rows (due to quote) " << unsupported_rows << std::endl; // just 1 ... ok
+
+    auto int_backend = aya::backend::init<int>();
+    auto top_10 = int_backend->topK(edit_durations, 10);
+    for (int i = 0; i < 10; i++)
+    {
+        std::cout << top_10[i] << std::endl;
+    }
+    std::vector<int> indices(10);
+    top_10 = int_backend->topK(edit_durations, 10, indices);
+    for (int i = 0; i < 10; i++)
+    {
+        std::cout << top_10[i] << " " << indices[i] << std::endl;
+    }
+    delete int_backend;
 
     google::ShutDownCommandLineFlags();
     return 0;

@@ -16,8 +16,10 @@ csv:
 
 .PHONY: wakatime_thrust
 wakatime_thrust:
-	cp src/wakatime.cpp src/wakatime.cu
-	$(NVCC) -DWAKA_THRUST -o bin/wakatime_thrust src/wakatime.cu $(LIBS)
+# cp src/wakatime.cpp src/wakatime.cu
+# $(NVCC) -DWAKA_THRUST -o bin/wakatime_thrust src/wakatime.cu $(LIBS)
+	cp src/csv.cpp src/csv.cu
+	$(NVCC) -DWAKA_THRUST -o bin/wakatime_thrust src/csv.cu $(LIBS)
 
 .PHONY: wakatime_boost
 wakatime_boost: 
