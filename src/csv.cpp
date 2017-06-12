@@ -162,6 +162,13 @@ csv
         int j = indices[i];
         std::cout << j << " " << days[j] << " " << projects[j] << " " << file_names[j] << " " << edit_durations[j] << std::endl;
     }
+
+    std::vector<int> durations(10);
+    auto top_10_files = int_backend->groupByTopK<int>(projects, edit_durations, 10, durations);
+    for (int i = 0; i < 10; i++)
+    {
+        std::cout << top_10_files[i] << " " >> durations[i] << std::endl;
+    }
     delete int_backend;
 
     google::ShutDownCommandLineFlags();
