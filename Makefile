@@ -10,6 +10,10 @@ all: wakatime bench
 loc:
 	cloc src
 
+.PHONY: csv
+csv:
+	$(CC) $(CCFLAGS) -o bin/csv src/csv.cpp $(LIBS)
+
 .PHONY: wakatime_thrust
 wakatime_thrust:
 	cp src/wakatime.cpp src/wakatime.cu

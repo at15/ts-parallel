@@ -63,7 +63,7 @@ def main():
     with open('at15.csv', 'w') as csvfile:
         fieldnames = ['date', 'project', 'name', 'time']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        writer.writeheader
+        writer.writeheader()
         for i in range(len(days)):
             writer.writerow({
                 'date': days[i],
@@ -71,7 +71,7 @@ def main():
                 'name': names[i],
                 'time': times[i]
             })
-    print("dump finished");        
+    print("dump finished");
     # print(dates[:20])
 
     # http://pandas.pydata.org/pandas-docs/stable/10 min.html  #
