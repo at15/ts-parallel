@@ -9,7 +9,6 @@ DEFINE_string(schema, "", "csv schema");
 
 std::vector<std::string> splitAsString(const std::string line)
 {
-    std::cout << line << std::endl;
     std::vector<std::string> values;
     std::stringstream line_stream;
     std::string cell;
@@ -18,10 +17,6 @@ std::vector<std::string> splitAsString(const std::string line)
     {
         values.push_back(std::move(cell));
     }
-    std::cout << values.size() << std::endl;
-    // for (auto s : values) {
-    //     std::cout << s << " ";
-    // }
     return values;
 }
 
@@ -78,6 +73,7 @@ csv
             return 1;
         }
     }
+    line_stream.clear();
 
     for (const auto &i : column_types)
     {
@@ -93,18 +89,54 @@ csv
 
     std::string line;
     std::getline(f, line);
-    std::cout << line << std::endl;
+
     std::vector<std::string> header = splitAsString(line);
-    std::cout << header.size() << std::endl;
-    // FIXED: this seems to be the problem of the print .... 
-    // use std::endl instead of " "
-    for (const auto &h : header)
+
+    std::cout << header[0] << std::endl;
+    std::cout << header[1] << std::endl;
+
+    // FIXME: we use fixed data
+    std::vector<std::string> days;
+    std::vector<std::string> projects;
+    std::vector<std::string> file_names;
+    std::vector<int> edit_durations;
+    int unsupported_rows = 0;
+    while (std::getline(f, line))
     {
-        std::cout << h << std::endl;
+        int i = 0;
+        line_stream << line;
+        while (std::getline(line_stream, cell, ','))
+        {
+            switch (i)
+            {
+            case 0:
+                days.push_back(std::move(cell));
+                break;
+            case 1:
+                projects.push_back(std::move(cell));
+                break;
+            case 2:
+                file_names.push_back(std::move(cell));
+                break;
+            case 3:
+                try
+                {
+                    // broken by 2015-10-17,LostMie,"/Users/gpl/repos/github.com/dyweb/LostMie/index,hs.js",16
+                    edit_durations.push_back(std::stoi(cell));
+                }
+                catch (const std::invalid_argument)
+                {
+                    unsupported_rows++;
+                    edit_durations.push_back(0);
+                }
+
+                break;
+            }
+            i++;
+        }
+        line_stream.clear();
     }
-    std::cout << header[0];
-    std::cout << header[1];
-    
+    std::cout << "unsupported rows (due to quote) " << unsupported_rows << std::endl; // just 1 ... ok
 
     google::ShutDownCommandLineFlags();
     return 0;
