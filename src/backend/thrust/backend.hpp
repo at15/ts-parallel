@@ -68,18 +68,20 @@ struct Backend
         return result;
     }
 
-    template <typename V>
-    std::vector<T> groupByTopK(const std::vector<T> &keys, const std::vector<V> &values, unsigned int k, std::vector<V> &grouped_values)
+    template <typename K>
+    std::vector<K> groupByTopK(const std::vector<K> &keys, const std::vector<T> &values, unsigned int k, std::vector<T> &grouped_values)
     {
-        thrust::device_vector<T> d_keys(keys.begin(), keys.end());
-        thrust::device_vector<V> d_values(values.begin(), values.end());
-        // NOTE: if we know the length of unique keys, we could have allocated much less space
-        thrust::device_vector<V> d_grouped_keys(keys.size());
-        thrust::device_vector<V> d_grouped_values(keys.size());
-
         // select name, SUM(time) as sm from project group by name order by sm
-        // select name, time from project order by name
-        thrust::sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin(), thrust::greater<T>());
+
+        // select name, time from project
+        thrust::device_vector<K> d_keys(keys.begin(), keys.end());
+        thrust::device_vector<T> d_values(values.begin(), values.end());
+        // NOTE: if we know the length of unique keys, we could have allocated much less space
+        thrust::device_vector<K> d_grouped_keys(keys.size());
+        thrust::device_vector<T> d_grouped_values(keys.size());
+
+        // order by name
+        thrust::sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin(), thrust::greater<K>());
         // group by name
         thrust::reduce_by_key(d_keys.begin(), d_keys.end(), d_values.begin(), d_grouped_keys.begin(), d_grouped_values.begin());
         // order by sm
@@ -90,7 +92,7 @@ struct Backend
             std::cout << "warn: k " << k << " is larger than unique keys " << d_grouped_keys.size() << std::endl;
             k = d_grouped_keys.size();
         }
-        std::vector<T> grouped_keys(k);
+        std::vector<K> grouped_keys(k);
         grouped_values.resize(k);
         thrust::copy(d_grouped_keys.begin(), d_grouped_keys.begin() + k, grouped_keys.begin());
         thrust::copy(d_grouped_values.begin(), d_grouped_values.begin() + k, grouped_values.begin());

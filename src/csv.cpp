@@ -164,10 +164,10 @@ csv
     }
 
     std::vector<int> durations(10);
-    auto top_10_files = int_backend->groupByTopK<int>(projects, edit_durations, 10, durations);
+    auto top_10_files = int_backend->groupByTopK(projects, edit_durations, 10, durations);
     for (int i = 0; i < 10; i++)
     {
-        std::cout << top_10_files[i] << " " >> durations[i] << std::endl;
+        std::cout << top_10_files[i] << " " << durations[i] << std::endl;
     }
     delete int_backend;
 
