@@ -152,6 +152,9 @@ csv
     {
         std::cout << top_10[i] << std::endl;
     }
+
+    std::cout << "top k with indicies" << std::endl;
+
     std::vector<int> indices(10);
     top_10 = int_backend->topK(edit_durations, 10, indices);
     for (int i = 0; i < 10; i++)
