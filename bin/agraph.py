@@ -21,47 +21,54 @@ def main():
                 if backend not in data[op + "_" + tp]:
                     data[op + "_" + tp][backend] = {}
                 num = int(num)
-                print(backend, num)
+                # print(backend, num)
                 data[op + "_" + tp][backend][num] = {}
                 with open(result) as f:
                     # NOTE: it will detect the header of CSV and change it to
                     # key
                     reader = csv.DictReader(f)
                     for row in reader:
-                        data[op + "_" + tp][backend][num][row["stage"]] = row["duration"]
+                        data[op + "_" + tp][backend][num][row["stage"]
+                                                          ] = row["duration"]
                         # print(row)
                         # print(results)
-    print(data)
+    # print(data)
     # now let's draw the graph
     plot_data = {}
     for op, backends in data.items():
-        print(op)
+        # print(op)
         plot_data[op] = []
         for backend, results in backends.items():
             pdata = {"name": backend, "x": [], "y": []}
-            print(backend)
+            # print(backend)
             # [(10, {'init': '2771', 'generate': '7667', 'copy': '112781784', 'run': '825079', 'delete': '67504'}), (50, {'init': '1045', 'generate': '8579', 'copy': '110102907', 'run': '1389482', 'delete': '68685'})]
             sorted_results = sorted(results.items())
             for result in sorted_results:
                 num, stages = result
-                print(num)
+                # print(num)
                 if "run" not in stages:
                     print("didn't find run!", op, backend, num)
                     continue
                 pdata["x"].append(num)
                 pdata["y"].append(stages["run"])
             plot_data[op].append(pdata)
-    print(plot_data)
+    # print(plot_data)
     i = 1
+    color_map = {"serial": "C1", "boost": "C2", "thrust": "C3"}
+    exclude = {"serial": True}
     for op, pdatas in plot_data.items():
         plt.figure(i)
         i += 1
         for pdata in pdatas:
-            plt.plot(pdata["x"], pdata["y"], label=pdata["name"])
+            if pdata["name"] in exclude:
+                continue
+            plt.plot(pdata["x"], pdata["y"],
+                     color_map[pdata["name"]], label=pdata["name"])
         plt.title(op)
         plt.xlabel("Vector length")
         # TODO: ylabel is not shown, and the color changes in different figure
-        # NOTE: we are using microseconds, because nano seconds got negative value
+        # NOTE: we are using microseconds, because nano seconds got negative
+        # value
         plt.ylabel("Time (us)")
         plt.legend(loc='upper right', shadow=True, fontsize='x-small')
     plt.show()
