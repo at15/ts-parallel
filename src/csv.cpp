@@ -19,9 +19,9 @@ std::vector<std::string> splitAsString(const std::string line)
         values.push_back(std::move(cell));
     }
     std::cout << values.size() << std::endl;
-    for (auto s : values) {
-        std::cout << s << " ";
-    }
+    // for (auto s : values) {
+    //     std::cout << s << " ";
+    // }
     return values;
 }
 
@@ -81,7 +81,7 @@ csv
 
     for (const auto &i : column_types)
     {
-        std::cout << i << " ";
+        std::cout << i << std::endl;
     }
 
     std::ifstream f(file_name);
@@ -96,10 +96,11 @@ csv
     std::cout << line << std::endl;
     std::vector<std::string> header = splitAsString(line);
     std::cout << header.size() << std::endl;
-    // FIXME: this seems to be the problem of the print .... 
+    // FIXED: this seems to be the problem of the print .... 
+    // use std::endl instead of " "
     for (const auto &h : header)
     {
-        std::cout << h << " ";
+        std::cout << h << std::endl;
     }
     std::cout << header[0];
     std::cout << header[1];
