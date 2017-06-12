@@ -42,7 +42,7 @@ struct Backend
     }
 
     // FIXME: this is all empty
-    std::vector<T> topK(const std::vector<T> &src, unsigned int k, std::vector<int>& index)
+    std::vector<T> topK(const std::vector<T> &src, unsigned int k, std::vector<int> &index)
     {
         thrust::device_vector<T> d_vec(src.begin(), src.end());
         // Initialize the indices
@@ -50,11 +50,11 @@ struct Backend
         // https://stackoverflow.com/a/6618780/4116260
         thrust::counting_iterator<int> iter(0);
         thrust::device_vector<int> d_indices(src.size());
-        std::cout << d_indices.size() << std::endl;
+        // std::cout << d_indices.size() << std::endl;
         thrust::copy(iter, iter + d_indices.size(), d_indices.begin());
-        std::cout << d_indices[1] << std::endl;
-        // thrust::sort_by_key(d_vec.begin(), d_vec.end(), d_indices.begin());
-        thrust::sort(d_vec.begin(), d_vec.end(), thrust::greater<T>());
+        // std::cout << d_indices[1] << std::endl;
+        thrust::sort_by_key(d_vec.begin(), d_vec.end(), d_indices.begin(), thrust::greater<T>());
+        // thrust::sort(d_vec.begin(), d_vec.end(), thrust::greater<T>());
         if (k > src.size())
         {
             std::cout << "warn: k " << k << " is larger than size " << src.size();

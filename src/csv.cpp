@@ -159,7 +159,8 @@ csv
     top_10 = int_backend->topK(edit_durations, 10, indices);
     for (int i = 0; i < 10; i++)
     {
-        std::cout << top_10[i] << " " << indices[i] << std::endl;
+        int j = indices[i];
+        std::cout << j << " " << days[j] << " " << projects[j] << " " << file_names[j] << " " << edit_durations[j] << std::endl;
     }
     delete int_backend;
 
