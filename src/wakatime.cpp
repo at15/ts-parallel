@@ -1,7 +1,14 @@
 #include "common.hpp"
 #include "../third_party/json.hpp"
 
+// TODO: use def to switch between backends
+#ifdef WAKA_BOOST
 #include "backend/boost/backend.hpp"
+#endif
+
+#ifdef WAKA_THRUST
+#include "backend/thrust/backend.hpp"
+#endif
 
 using json = nlohmann::json;
 
@@ -73,6 +80,9 @@ int main(int argc, char **argv)
     {
         std::cout << top_10[i] << std::endl;
     }
+
+    // TODO: top K index is what we need
+
     delete int_backend;
 
     google::ShutDownCommandLineFlags();

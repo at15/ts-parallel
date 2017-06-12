@@ -1,3 +1,4 @@
 *.csv
 bench_*
 wakatime
+wakatime_*

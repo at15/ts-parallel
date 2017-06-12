@@ -24,13 +24,13 @@ struct Backend
         context = compute::context(gpu);
         queue = compute::command_queue(context, gpu);
     }
-    
+
     ~Backend()
     {
         std::cout << "boost backend destructor called\n";
     }
 
-    std::vector<T> topK(const std::vector<T> &src, int k)
+    std::vector<T> topK(const std::vector<T> &src, unsigned int k)
     {
         auto d_vec = compute::vector<T>(src.size(), context);
         compute::copy(src.begin(), src.end(), d_vec.begin(), queue);
@@ -46,6 +46,15 @@ struct Backend
         queue.finish();
         return result;
     }
+
+    // FIXME: can we keep the cout when using counting iterator?
+    // std::vector<unsigned int> topKIndex(const std::vector<T> &src, unsigned int k)
+    // {
+    //     auto d_vec = compute::vector<T>(src.size(), context);
+    //     compute::copy(src.begin(), src.end(), d_vec.begin(), queue);
+    //     compute::counting_iterator<T> index(0);
+    //     compute::sort_by_key(d_vec.begin(), d_vec.end(), index.begin(), queue);
+    // }
 
   private:
     compute::device gpu;

@@ -11,3 +11,4 @@ a.out
 .cproject
 .project
 .settings
+src/wakatime.cu

@@ -10,13 +10,18 @@ all: wakatime bench
 loc:
 	cloc src
 
-.PHONY: wakatime
-wakatime: 
+.PHONY: wakatime_thrust
+wakatime_thrust:
+	cp src/wakatime.cpp src/wakatime.cu
+	$(NVCC) -DWAKA_THRUST -o bin/wakatime_thrust src/wakatime.cu $(LIBS)
+
+.PHONY: wakatime_boost
+wakatime_boost: 
 # $(CC) $(CCFLAGS) -o bin/wakatime src/wakatime.cpp $(LIBS)
 # $(CC) $(CCFLAGS) -c -o build/wakatime.o src/wakatime.cpp $(LIBS)
 # $(CC) $(CCFLAGS) build/wakatime.o build/boost.o -o bin/wakatime $(LIBS) -lOpenCL
 # $(CC) $(CCFLAGS) -o bin/wakatime src/backend/boost/backend.cpp src/wakatime.cpp $(LIBS) -lOpenCL
-	$(CC) $(CCFLAGS) -o bin/wakatime src/wakatime.cpp $(LIBS) -lOpenCL
+	$(CC) $(CCFLAGS) -DWAKA_BOOST -o bin/wakatime_boost src/wakatime.cpp $(LIBS) -lOpenCL
 	
 
 .PHONY: bench
@@ -33,18 +38,10 @@ bench: boost thrust serial
 serial:
 	$(CC) $(CCFLAGS) -o bin/bench_serial src/backend/serial/benchmark.cpp $(LIBS)
 
-.PHONY: boost_bench
-boost_bench: src/benchmark.hpp src/backend/boost/benchmark.cpp
-	$(CC) $(CCFLAGS) -o bin/bench_boost src/backend/boost/benchmark.cpp $(LIBS) -lOpenCL
-
-.PHONY: boost_backend
-boost_backend:
-	$(CC) $(CCFLAGS) -c -o build/boost.o src/backend/boost/backend.cpp $(LIBS) -lOpenCL
-
 .PHONY: boost
-boost: boost_bench boost_backend
+boost: src/benchmark.hpp src/backend/boost/benchmark.cpp
 # $(CC) $(CCFLAGS) -c -o build/boost.o src/backend/boost.compute/benchmark.cpp
-# $(CC) $(CCFLAGS) -o bin/bench_boost src/backend/boost/benchmark.cpp $(LIBS) -lOpenCL
+	$(CC) $(CCFLAGS) -o bin/bench_boost src/backend/boost/benchmark.cpp $(LIBS) -lOpenCL
 
 .PHONY: thrust
 thrust:
