@@ -1,6 +1,9 @@
+#!/usr/bin/env python3
+
 import json
 import numpy as np
 import pandas as pd
+import csv
 
 
 def main():
@@ -56,9 +59,23 @@ def main():
                 times.append(entity["total_seconds"])
     print(len(projects))
 
+    print("dump to csv");
+    with open('at15.csv', 'w') as csvfile:
+        fieldnames = ['date', 'project', 'name', 'time']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader
+        for i in range(len(days)):
+            writer.writerow({
+                'date': days[i],
+                'project': projects[i],
+                'name': names[i],
+                'time': times[i]
+            })
+    print("dump finished");        
     # print(dates[:20])
 
-    # http://pandas.pydata.org/pandas-docs/stable/10 min.html  # object-creation
+    # http://pandas.pydata.org/pandas-docs/stable/10 min.html  #
+    # object-creation
     df2 = pd.DataFrame({
         "date": pd.Series(days),
         "project": pd.Categorical(projects),
@@ -68,7 +85,8 @@ def main():
 
     print(df2.head())
     print(df2.describe())
-    print(df2.sort_values(by='time', ascending=False))
+    # print(df2.sort_values(by='time', ascending=False))
+
 
 if __name__ == "__main__":
     main()
